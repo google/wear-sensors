@@ -94,12 +94,12 @@ public class BaseActivity extends Activity {
     }
 
     private void startSensor() {
-        String type = "Sensor #" + (sensorIndex+1) + ", type " + sensor.getType();
+        String type = "#" + (sensorIndex+1) + ", type " + sensor.getType();
         if (Build.VERSION.SDK_INT >= 20)
-            type = type + ", " + sensor.getStringType();
-        Logging.debug("Opened up " + type);
+            type = type + "=" + sensor.getStringType();
+        Logging.debug("Opened up " + type + " - " + sensor.toString());
         viewSensorType.setText(type);
-        viewSensorDetails.setText(sensor.toString());
+        viewSensorDetails.setText(sensor.toString().replace("{Sensor ","").replace("}",""));
         for (int i = 0; i < viewBarArray.length; i++) {
             viewBarArray[i].setMaximum(sensor.getMaximumRange());
         }
@@ -110,7 +110,7 @@ public class BaseActivity extends Activity {
             public void onSensorChanged(SensorEvent sensorEvent) {
                 if (sensorEvent.sensor.getType() == sensor.getType()) {
                     Logging.detailed("Sensor update: " + Arrays.toString(sensorEvent.values));
-                    viewSensorRaw.setText("Sensor=" + Arrays.toString(sensorEvent.values));
+                    viewSensorRaw.setText(Arrays.toString(sensorEvent.values));
                     if (sensorEvent.values.length > viewBarArray.length)
                         Logging.fatal("Sensor update contained " + sensorEvent.values.length + " which is larger than expected " + viewBarArray.length);
                     for (int i = 0; i < sensorEvent.values.length; i++) {

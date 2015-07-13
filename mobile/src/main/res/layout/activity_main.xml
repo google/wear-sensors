@@ -68,7 +68,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="PREV"
+        android:text="Prev"
+        android:textSize="@dimen/sensor_font_size"
         android:id="@+id/sensorPrev"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"

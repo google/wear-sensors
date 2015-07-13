@@ -2,6 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
     tools:context=".MainActivity">
 
     <TextView
@@ -10,19 +12,17 @@
         android:text="Type"
         android:textSize="@dimen/sensor_font_size"
         android:id="@+id/sensorType"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/sensorDetails" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Details"
         android:textSize="@dimen/sensor_font_size"
+        android:gravity="center_horizontal"
         android:id="@+id/sensorDetails"
-        android:layout_below="@+id/sensorType"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerInParent="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -31,8 +31,7 @@
         android:textSize="@dimen/sensor_font_size"
         android:id="@+id/sensorAccuracy"
         android:layout_below="@+id/sensorDetails"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -41,35 +40,36 @@
         android:textSize="@dimen/sensor_font_size"
         android:id="@+id/sensorRaw"
         android:layout_below="@+id/sensorAccuracy"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerHorizontal="true" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Next"
         android:textSize="@dimen/sensor_font_size"
         android:id="@+id/sensorNext"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_centerHorizontal="true"
+        android:minHeight="0dp"
+        android:background="#606060" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Prev"
+        android:textSize="@dimen/sensor_font_size"
+        android:id="@+id/sensorPrev"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:minHeight="0dp"
+        android:background="#606060" />
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/sensorRaw"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_above="@+id/sensorNext"
-        android:id="@+id/sensorBarLayout"></LinearLayout>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="PREV"
-        android:id="@+id/sensorPrev"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/sensorBarLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/sensorPrev"
+        android:layout_above="@+id/sensorNext"></LinearLayout>
 </RelativeLayout>
