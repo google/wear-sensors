@@ -1,7 +1,9 @@
+# Ignore Android Studio generated files
+.idea
 .gradle
-/local.properties
-/.idea/workspace.xml
-/.idea/libraries
-.DS_Store
-/build
-/captures
+local.properties
+*.iml
+
+# Build files and directories
+*.apk
+build
