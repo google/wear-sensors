@@ -8,6 +8,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Arrays;
@@ -22,6 +23,8 @@ public class MainActivity extends Activity {
     private TextView viewSensorDetails;
     private TextView viewSensorAccuracy;
     private TextView viewSensorRaw;
+    private BarView[] viewBarArray;
+    private LinearLayout viewSensorBarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,13 @@ public class MainActivity extends Activity {
         viewSensorDetails = (TextView)findViewById(R.id.sensorDetails);
         viewSensorAccuracy = (TextView)findViewById(R.id.sensorAccuracy);
         viewSensorRaw = (TextView)findViewById(R.id.sensorRaw);
+        viewSensorBarLayout = (LinearLayout)findViewById(R.id.sensorBarLayout);
+
+        viewBarArray = new BarView[3];
+        for (int i = 0; i < viewBarArray.length; i++) {
+            viewBarArray[i] = new BarView(this, null);
+            viewSensorBarLayout.addView(viewBarArray[i]);
+        }
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
     }
@@ -72,6 +82,12 @@ public class MainActivity extends Activity {
                 if (sensorEvent.sensor.getType() == sensorType) {
                     Logging.debug("Accelerometer update: " + Arrays.toString(sensorEvent.values));
                     viewSensorRaw.setText(Arrays.toString(sensorEvent.values));
+                    for (int i = 0; i < sensorEvent.values.length; i++) {
+                        viewBarArray[i].setValue(sensorEvent.values[i]);
+                    }
+                    for (int i = sensorEvent.values.length; i < viewBarArray.length; i++) {
+                        viewBarArray[i].setValue(0);
+                    }
                 }
             }
 

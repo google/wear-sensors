@@ -53,4 +53,14 @@
         android:id="@+id/sensorNext"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/sensorRaw"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/sensorNext"
+        android:id="@+id/sensorBarLayout"></LinearLayout>
 </RelativeLayout>
