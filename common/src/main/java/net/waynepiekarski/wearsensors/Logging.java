@@ -10,6 +10,11 @@ public class Logging {
         Log.d (TAG, str);
     }
 
+    public static void detailed (String str) {
+        // Disable detailed logging by default
+        // Log.d (TAG, str);
+    }
+
     public static void fatal (String str) {
         Log.e (TAG, "FATAL ERROR: " + str);
         RuntimeException re = new RuntimeException();

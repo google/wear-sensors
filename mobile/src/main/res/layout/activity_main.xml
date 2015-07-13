@@ -52,7 +52,8 @@
         android:textSize="@dimen/sensor_font_size"
         android:id="@+id/sensorNext"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -63,4 +64,13 @@
         android:layout_alignParentStart="true"
         android:layout_above="@+id/sensorNext"
         android:id="@+id/sensorBarLayout"></LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PREV"
+        android:id="@+id/sensorPrev"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

@@ -10,15 +10,16 @@ import android.view.View;
 public class BarView extends View {
 
     private Paint mPaint;
-    private double mValue = 0.0;          // Current value
-    private double mMax = 10.0;           // Maximum +/- value allowed
-    private int mColor = Color.GREEN;     // Color to render with
+    private double mValue;                 // Current value
+    private double mMax;                   // Maximum +/- value allowed
+    private int mColor = Color.GREEN;      // Color to render with
     private final static int mHeight = 20; // Height of the view in pixels
 
     public BarView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mPaint = new Paint();
         mPaint.setColor(mColor);
+        reset();
     }
 
     @Override
@@ -43,5 +44,19 @@ public class BarView extends View {
             mValue = in;
             invalidate();
         }
+    }
+
+    public void setMaximum(double in) {
+        if (mMax != in) {
+            mMax = in;
+            mValue = 0.0;
+            invalidate();
+        }
+    }
+
+    public void reset() {
+        mMax = 1.0;
+        mValue = 0.0;
+        invalidate();
     }
 }
