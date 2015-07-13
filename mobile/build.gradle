@@ -13,8 +13,14 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled true
+            shrinkResources true
+        }
+    }
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java', '../common/src/main/java']
         }
     }
 }
@@ -22,6 +28,4 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     wearApp project(':wear')
-    compile 'com.android.support:appcompat-v7:22.2.0'
-    compile 'com.google.android.gms:play-services:7.5.0'
 }
