@@ -36,8 +36,6 @@ public class GraphView extends View {
             paint[i].setColor(palette[i]);
         }
         reset();
-        step = 0;
-        stepAhead = 1;
     }
 
     @Override
@@ -47,6 +45,16 @@ public class GraphView extends View {
         this.setMeasuredDimension(parentWidth, parentHeight);
     }
 
+    private void clearBitmap() {
+        if ((bitmap != null) || (canvas != null)) {
+            canvas.drawColor(background.getColor());
+            canvas.drawRect(0, 0, canvas.getWidth() - 1, 0, foreground);
+            canvas.drawRect(canvas.getWidth() - 1, 0, canvas.getWidth() - 1, canvas.getHeight() - 1, foreground);
+            canvas.drawRect(canvas.getWidth() - 1, canvas.getHeight() - 1, 0, canvas.getHeight() - 1, foreground);
+            canvas.drawRect(0, canvas.getHeight() - 1, 0, 0, foreground);
+        }
+    }
+
     @Override
     protected void onDraw(Canvas liveCanvas) {
         super.onDraw(canvas);
@@ -54,11 +62,7 @@ public class GraphView extends View {
         if ((bitmap == null) || (bitmap.getWidth() != canvas.getWidth()) || (bitmap.getHeight() != canvas.getHeight())) {
             bitmap = Bitmap.createBitmap(liveCanvas.getWidth(), liveCanvas.getHeight(), Bitmap.Config.ARGB_8888);
             canvas = new Canvas(bitmap);
-            canvas.drawColor(background.getColor());
-            canvas.drawRect(0,0,canvas.getWidth()-1,0, foreground);
-            canvas.drawRect(canvas.getWidth()-1,0,canvas.getWidth()-1,canvas.getHeight()-1, foreground);
-            canvas.drawRect(canvas.getWidth()-1,canvas.getHeight()-1,0,canvas.getHeight()-1, foreground);
-            canvas.drawRect(0, canvas.getHeight()-1, 0, 0, foreground);
+            clearBitmap();
         }
 
         // Clear out pixels on the current column before we draw here
@@ -100,8 +104,8 @@ public class GraphView extends View {
 
     public void setMaximum(double in) {
         if (mMax != in) {
+            reset();
             mMax = in;
-            array = null;
             invalidate();
         }
     }
@@ -109,7 +113,8 @@ public class GraphView extends View {
     public void reset() {
         array = null;
         step = 0;
+        stepAhead = step + 1;
         mMax = 1.0;
-        invalidate();
+        clearBitmap();
     }
 }
