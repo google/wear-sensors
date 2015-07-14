@@ -107,11 +107,11 @@ public class BaseActivity extends Activity {
             type = type + "=" + sensor.getStringType();
         Logging.debug("Opened up " + type + " - " + sensor.toString());
         viewSensorType.setText(type);
-        viewSensorDetails.setText(sensor.toString().replace("{Sensor ","").replace("}",""));
+        viewSensorDetails.setText(sensor.toString().replace("{Sensor ", "").replace("}", ""));
         for (int i = 0; i < viewBarArray.length; i++) {
             viewBarArray[i].setMaximum(sensor.getMaximumRange());
         }
-        viewSensorGraph.setMaximum(sensor.getMaximumRange());
+        viewSensorGraph.resetMaximum(sensor.getMaximumRange());
         viewSensorRaw.setText("n/a");
         viewSensorAccuracy.setText("n/a");
 

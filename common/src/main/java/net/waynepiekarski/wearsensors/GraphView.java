@@ -118,12 +118,10 @@ public class GraphView extends View {
         invalidate();
     }
 
-    public void setMaximum(double in) {
-        if (mMax != in) {
-            reset();
-            mMax = in;
-            invalidate();
-        }
+    public void resetMaximum(double in) {
+        reset();
+        mMax = in;
+        invalidate();
     }
 
     public void reset() {
