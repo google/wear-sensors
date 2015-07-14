@@ -136,7 +136,7 @@ public class BaseActivity extends Activity {
                     }
                     viewSensorRaw.setText(raw);
 
-                    if (sensorEvent.values.length > viewBarArray.length)
+                    if (sensorEvent.values.length != min(sensorEvent.values.length, viewBarArray.length))
                         Logging.debug("Sensor update contained " + sensorEvent.values.length + " which is larger than expected " + viewBarArray.length);
                     for (int i = 0; i < min(sensorEvent.values.length, viewBarArray.length); i++) {
                         viewBarArray[i].setValue(sensorEvent.values[i]);

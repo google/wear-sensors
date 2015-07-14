@@ -101,19 +101,28 @@ public class GraphView extends View {
     }
 
     public void setSize(int length) {
+        if (length > palette.length)
+            length = palette.length;
         if ((current == null) || (length != current.length)) {
             current = new double[length];
             prev = new double[length];
         }
     }
 
+    static public int min(int a, int b) {
+        if (a < b)
+            return a;
+        else
+            return b;
+    }
+
     public void setValues(float[] in) {
-        if (in.length != current.length)
+        if (min(in.length,palette.length) != current.length)
             Logging.fatal("Mismatch between incoming length " + current.length + " with existing " + in.length);
         double temp[] = prev;
         prev = current;
         current = temp;
-        for (int i = 0; i < in.length; i++)
+        for (int i = 0; i < min(in.length, palette.length); i++)
             current[i] = in[i];
         invalidate();
     }
