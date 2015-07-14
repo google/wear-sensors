@@ -15,8 +15,10 @@ public class GraphView extends View {
     private Paint leader;
     private double mMax;
     private int step;
-    private int stepAhead;
-    private double array[];
+    private int stepNext;
+    private int stepPrev;
+    private double current[];
+    private double prev[];
     private Bitmap bitmap;
     private Canvas canvas;
     private Paint paint[];
@@ -69,15 +71,19 @@ public class GraphView extends View {
 
         // Clear out pixels on the current column before we draw here
         canvas.drawLine(step, 0, step, canvas.getHeight(), background);
-        canvas.drawLine(stepAhead, 0, stepAhead, canvas.getHeight(), leader);
+        canvas.drawLine(stepNext, 0, stepNext, canvas.getHeight(), leader);
 
         // Plot the latest data at the current column
-        if (array != null) {
-            for (int i = 0; i < array.length; i++) {
-                int x = step;
-                int y = (int)(canvas.getHeight()/2.0 + array[i]/mMax*canvas.getHeight() / 2.0);
+        if (current != null) {
+            for (int i = 0; i < current.length; i++) {
+                int x1 = stepPrev;
+                int y1 = (int)(canvas.getHeight()/2.0 + prev[i]/mMax*canvas.getHeight() / 2.0);
+                int x2 = step;
+                int y2 = (int)(canvas.getHeight()/2.0 + current[i]/mMax*canvas.getHeight() / 2.0);
 
-                canvas.drawLine(x, y - 1, x, y + 1, paint[i]);
+                // Only draw if there is no wrap-around
+                if (x2 > x1)
+                    canvas.drawLine(x1, y1, x2, y2, paint[i]);
             }
         }
 
@@ -86,21 +92,29 @@ public class GraphView extends View {
         step += 1;
         if (step > canvas.getWidth())
             step = 0;
-        stepAhead += 1;
-        if (stepAhead > canvas.getWidth())
-            stepAhead = 0;
+        stepNext += 1;
+        if (stepNext > canvas.getWidth())
+            stepNext = 0;
+        stepPrev += 1;
+        if (stepPrev > canvas.getWidth())
+            stepPrev = 0;
     }
 
     public void setSize(int length) {
-        if ((array == null) || (length != array.length))
-            array = new double[length];
+        if ((current == null) || (length != current.length)) {
+            current = new double[length];
+            prev = new double[length];
+        }
     }
 
     public void setValues(float[] in) {
-        if (in.length != array.length)
-            Logging.fatal("Mismatch between incoming length " + array.length + " with existing " + in.length);
+        if (in.length != current.length)
+            Logging.fatal("Mismatch between incoming length " + current.length + " with existing " + in.length);
+        double temp[] = prev;
+        prev = current;
+        current = temp;
         for (int i = 0; i < in.length; i++)
-            array[i] = in[i];
+            current[i] = in[i];
         invalidate();
     }
 
@@ -113,9 +127,11 @@ public class GraphView extends View {
     }
 
     public void reset() {
-        array = null;
+        current = null;
+        prev = null;
         step = 0;
-        stepAhead = step + 1;
+        stepNext = step + 1;
+        stepPrev = step - 1;
         mMax = 1.0;
         clearBitmap();
     }
