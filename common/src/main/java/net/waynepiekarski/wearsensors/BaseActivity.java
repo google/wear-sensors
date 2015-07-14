@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,11 +35,14 @@ public class BaseActivity extends Activity {
     private Button viewSensorPrev;
     private GraphView viewSensorGraph;
     private RelativeLayout viewMainLayout;
+    private DecimalFormat decimalFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        decimalFormat = new DecimalFormat("+@@@@;-@@@@"); // 4 significant figures
 
         viewSensorType = (TextView)findViewById(R.id.sensorType);
         viewSensorDetails = (TextView)findViewById(R.id.sensorDetails);
@@ -122,7 +126,16 @@ public class BaseActivity extends Activity {
             public void onSensorChanged(SensorEvent sensorEvent) {
                 if (sensorEvent.sensor.getType() == sensor.getType()) {
                     Logging.detailed("Sensor update: " + Arrays.toString(sensorEvent.values));
-                    viewSensorRaw.setText(Arrays.toString(sensorEvent.values));
+
+                    String raw = "";
+                    for (int i = 0; i < sensorEvent.values.length; i++) {
+                        String str = decimalFormat.format(sensorEvent.values[i]);
+                        if (raw.length() != 0)
+                            raw = raw + "\n";
+                        raw = raw + str;
+                    }
+                    viewSensorRaw.setText(raw);
+
                     if (sensorEvent.values.length > viewBarArray.length)
                         Logging.debug("Sensor update contained " + sensorEvent.values.length + " which is larger than expected " + viewBarArray.length);
                     for (int i = 0; i < min(sensorEvent.values.length, viewBarArray.length); i++) {

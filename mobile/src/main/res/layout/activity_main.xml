@@ -43,6 +43,7 @@
         android:layout_height="wrap_content"
         android:text="Raw"
         android:textSize="@dimen/sensor_font_size"
+        android:fontFamily="monospace"
         android:id="@+id/sensorRaw"
         android:layout_below="@+id/sensorAccuracy"
         android:layout_alignParentLeft="true"
