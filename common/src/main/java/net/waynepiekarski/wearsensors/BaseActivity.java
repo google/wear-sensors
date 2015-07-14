@@ -18,6 +18,7 @@ import java.util.List;
 
 public class BaseActivity extends Activity {
 
+    public static final int MAX_SENSOR_VALUES = 6;
     private SensorManager sensorManager;
     private Sensor sensor;
     private SensorEventListener listener;
@@ -48,7 +49,7 @@ public class BaseActivity extends Activity {
         viewSensorPrev = (Button)findViewById(R.id.sensorPrev);
         viewMainLayout = (RelativeLayout)findViewById(R.id.mainLayout);
 
-        viewBarArray = new BarView[6];
+        viewBarArray = new BarView[MAX_SENSOR_VALUES];
         for (int i = 0; i < viewBarArray.length; i++) {
             viewBarArray[i] = new BarView(this, null);
             viewSensorBarLayout.addView(viewBarArray[i]);
@@ -115,13 +116,16 @@ public class BaseActivity extends Activity {
         viewSensorAccuracy.setText("n/a");
 
         listener = new SensorEventListener() {
+
+            public int min(int a, int b) { if (a < b) { return a; } else { return b; } }
+
             public void onSensorChanged(SensorEvent sensorEvent) {
                 if (sensorEvent.sensor.getType() == sensor.getType()) {
                     Logging.detailed("Sensor update: " + Arrays.toString(sensorEvent.values));
                     viewSensorRaw.setText(Arrays.toString(sensorEvent.values));
                     if (sensorEvent.values.length > viewBarArray.length)
-                        Logging.fatal("Sensor update contained " + sensorEvent.values.length + " which is larger than expected " + viewBarArray.length);
-                    for (int i = 0; i < sensorEvent.values.length; i++) {
+                        Logging.debug("Sensor update contained " + sensorEvent.values.length + " which is larger than expected " + viewBarArray.length);
+                    for (int i = 0; i < min(sensorEvent.values.length, viewBarArray.length); i++) {
                         viewBarArray[i].setValue(sensorEvent.values[i]);
                     }
                     for (int i = sensorEvent.values.length; i < viewBarArray.length; i++) {

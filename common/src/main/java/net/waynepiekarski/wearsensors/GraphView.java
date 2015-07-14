@@ -20,7 +20,7 @@ public class GraphView extends View {
     private Bitmap bitmap;
     private Canvas canvas;
     private Paint paint[];
-    private int palette[] = { Color.RED, Color.GREEN, Color.BLUE, Color.CYAN, Color.MAGENTA, Color.YELLOW, Color.GRAY };
+    private int palette[] = { Color.RED, Color.GREEN, Color.BLUE, Color.CYAN, Color.MAGENTA, Color.YELLOW };
 
     public GraphView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -31,6 +31,8 @@ public class GraphView extends View {
         leader = new Paint();
         leader.setColor(Color.DKGRAY);
         paint = new Paint[palette.length];
+        if (palette.length != BaseActivity.MAX_SENSOR_VALUES)
+            Logging.fatal("Internal limit palette " + palette.length + " does not match sensors " + BaseActivity.MAX_SENSOR_VALUES);
         for (int i = 0; i < palette.length; i++) {
             paint[i] = new Paint();
             paint[i].setColor(palette[i]);
