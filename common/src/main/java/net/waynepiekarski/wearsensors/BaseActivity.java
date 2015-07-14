@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.Arrays;
@@ -30,6 +31,8 @@ public class BaseActivity extends Activity {
     private LinearLayout viewSensorBarLayout;
     private Button viewSensorNext;
     private Button viewSensorPrev;
+    private GraphView viewSensorGraph;
+    private RelativeLayout viewMainLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +46,16 @@ public class BaseActivity extends Activity {
         viewSensorBarLayout = (LinearLayout)findViewById(R.id.sensorBarLayout);
         viewSensorNext = (Button)findViewById(R.id.sensorNext);
         viewSensorPrev = (Button)findViewById(R.id.sensorPrev);
+        viewMainLayout = (RelativeLayout)findViewById(R.id.mainLayout);
 
         viewBarArray = new BarView[6];
         for (int i = 0; i < viewBarArray.length; i++) {
             viewBarArray[i] = new BarView(this, null);
             viewSensorBarLayout.addView(viewBarArray[i]);
         }
+
+        viewSensorGraph = new GraphView(this, null);
+        viewMainLayout.addView(viewSensorGraph, 0); // Add underneath everything else
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
@@ -103,6 +110,7 @@ public class BaseActivity extends Activity {
         for (int i = 0; i < viewBarArray.length; i++) {
             viewBarArray[i].setMaximum(sensor.getMaximumRange());
         }
+        viewSensorGraph.setMaximum(sensor.getMaximumRange());
         viewSensorRaw.setText("n/a");
         viewSensorAccuracy.setText("n/a");
 
@@ -119,6 +127,8 @@ public class BaseActivity extends Activity {
                     for (int i = sensorEvent.values.length; i < viewBarArray.length; i++) {
                         viewBarArray[i].setValue(0);
                     }
+                    viewSensorGraph.setSize(sensorEvent.values.length);
+                    viewSensorGraph.setValues(sensorEvent.values);
                 }
             }
 
