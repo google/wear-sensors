@@ -51,7 +51,7 @@
         android:id="@+id/sensorNext"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:minHeight="0dp"
+        android:minHeight="20dp"
         android:background="#606060" />
 
     <Button
@@ -62,7 +62,7 @@
         android:id="@+id/sensorPrev"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:minHeight="0dp"
+        android:minHeight="20dp"
         android:background="#606060" />
 
     <LinearLayout
