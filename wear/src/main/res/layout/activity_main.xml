@@ -65,9 +65,9 @@
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Next"
+        android:text="Prev"
         android:textSize="@dimen/sensor_font_size"
-        android:id="@+id/sensorNext"
+        android:id="@+id/sensorPrev"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:minHeight="20dp"
@@ -76,9 +76,9 @@
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Prev"
+        android:text="Next"
         android:textSize="@dimen/sensor_font_size"
-        android:id="@+id/sensorPrev"
+        android:id="@+id/sensorNext"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:minHeight="20dp"
@@ -90,8 +90,8 @@
         android:layout_height="match_parent"
         android:id="@+id/sensorBarLayout"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/sensorPrev"
-        android:layout_above="@+id/sensorNext">
+        android:layout_below="@+id/sensorNext"
+        android:layout_above="@+id/sensorPrev">
 
     </LinearLayout>
 </RelativeLayout>

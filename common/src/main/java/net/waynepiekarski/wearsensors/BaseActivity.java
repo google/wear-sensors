@@ -112,15 +112,6 @@ public class BaseActivity extends DeviceActivity {
             }
         });
 
-        // Implement the ability to go to the next sensor with a click anywhere else
-        viewMainLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Logging.debug("Detected onClick event");
-                changeSensor(+1);
-            }
-        });
-
         // Implement a runnable that updates the rate statistics once per second. Note
         // that if we change sensors, it will take 1 second to adjust to the new speed.
         uiThreadHandler = new Handler();
