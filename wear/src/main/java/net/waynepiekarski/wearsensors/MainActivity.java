@@ -17,5 +17,36 @@
 
 package net.waynepiekarski.wearsensors;
 
+import android.os.Bundle;
+import android.widget.TextView;
+
 public class MainActivity extends BaseActivity {
+
+    private TextView ambientType;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setAmbientEnabled();
+        ambientType = (TextView)findViewById(R.id.ambientType);
+        ambientType.setText("Interactive mode");
+    }
+
+    @Override
+    public void onEnterAmbient(Bundle b) {
+        super.onEnterAmbient(b);
+        ambientType.setText("Ambient mode");
+    }
+
+    @Override
+    public void onUpdateAmbient() {
+        super.onUpdateAmbient();
+        // Nothing to refresh here
+    }
+
+    @Override
+    public void onExitAmbient() {
+        super.onExitAmbient();
+        ambientType.setText("Interactive mode");
+    }
 }

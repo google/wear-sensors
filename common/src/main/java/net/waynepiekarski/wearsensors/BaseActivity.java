@@ -17,7 +17,6 @@
 
 package net.waynepiekarski.wearsensors;
 
-import android.app.Activity;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -34,7 +33,7 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 
-public class BaseActivity extends Activity {
+public class BaseActivity extends DeviceActivity {
 
     public static final int MAX_SENSOR_VALUES = 6;
     private SensorManager sensorManager;

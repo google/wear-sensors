@@ -10,6 +10,15 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="@dimen/sensor_font_size"
+        android:id="@+id/ambientType"
+        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/sensorType" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Type"
         android:textSize="@dimen/sensor_font_size"
         android:id="@+id/sensorType"
@@ -73,5 +82,7 @@
         android:id="@+id/sensorBarLayout"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/sensorPrev"
-        android:layout_above="@+id/sensorNext"></LinearLayout>
+        android:layout_above="@+id/sensorNext">
+
+    </LinearLayout>
 </RelativeLayout>
