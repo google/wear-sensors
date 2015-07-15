@@ -98,6 +98,11 @@ public class GraphView extends View {
         stepPrev += 1;
         if (stepPrev > canvas.getWidth())
             stepPrev = 0;
+
+        // Save the current values as previous values for the next run
+        double temp[] = prev;
+        prev = current;
+        current = temp;
     }
 
     public void setSize(int length) {
@@ -119,9 +124,6 @@ public class GraphView extends View {
     public void setValues(float[] in) {
         if (min(in.length,palette.length) != current.length)
             Logging.fatal("Mismatch between incoming length " + current.length + " with existing " + in.length);
-        double temp[] = prev;
-        prev = current;
-        current = temp;
         for (int i = 0; i < min(in.length, palette.length); i++)
             current[i] = in[i];
         invalidate();
