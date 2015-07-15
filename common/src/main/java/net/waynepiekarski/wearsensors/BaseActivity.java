@@ -176,6 +176,12 @@ public class BaseActivity extends DeviceActivity {
 
         listener = new SensorEventListener() {
 
+            public String getStrFromFloat(float in) {
+                if ((in > -0.00001) && (in < 0.00001))
+                    in = 0;
+                return decimalFormat.format(in);
+            }
+
             public int min(int a, int b) { if (a < b) { return a; } else { return b; } }
 
             public void onSensorChanged(SensorEvent sensorEvent) {
@@ -185,7 +191,7 @@ public class BaseActivity extends DeviceActivity {
 
                     String raw = "";
                     for (int i = 0; i < sensorEvent.values.length; i++) {
-                        String str = decimalFormat.format(sensorEvent.values[i]);
+                        String str = getStrFromFloat(sensorEvent.values[i]);
                         if (raw.length() != 0)
                             raw = raw + "\n";
                         raw = raw + str;
