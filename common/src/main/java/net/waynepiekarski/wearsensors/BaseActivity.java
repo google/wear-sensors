@@ -23,6 +23,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -44,6 +45,7 @@ public class BaseActivity extends DeviceActivity {
     private TextView viewSensorType;
     private TextView viewSensorDetails;
     private TextView viewSensorAccuracy;
+    private TextView viewSensorRate;
     private TextView viewSensorRaw;
     private BarView[] viewBarArray;
     private LinearLayout viewSensorBarLayout;
@@ -52,6 +54,11 @@ public class BaseActivity extends DeviceActivity {
     private GraphView viewSensorGraph;
     private RelativeLayout viewMainLayout;
     private DecimalFormat decimalFormat;
+    private boolean stopHandler;
+    private Handler uiThreadHandler;
+    private Object lockSensorRate;
+    private int samplesCount;
+    private int samplesSeconds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +70,7 @@ public class BaseActivity extends DeviceActivity {
         viewSensorType = (TextView)findViewById(R.id.sensorType);
         viewSensorDetails = (TextView)findViewById(R.id.sensorDetails);
         viewSensorAccuracy = (TextView)findViewById(R.id.sensorAccuracy);
+        viewSensorRate = (TextView)findViewById(R.id.sensorRate);
         viewSensorRaw = (TextView)findViewById(R.id.sensorRaw);
         viewSensorBarLayout = (LinearLayout)findViewById(R.id.sensorBarLayout);
         viewSensorNext = (Button)findViewById(R.id.sensorNext);
@@ -112,6 +120,35 @@ public class BaseActivity extends DeviceActivity {
                 changeSensor(+1);
             }
         });
+
+        // Implement a runnable that updates the rate statistics once per second. Note
+        // that if we change sensors, it will take 1 second to adjust to the new speed.
+        uiThreadHandler = new Handler();
+        lockSensorRate = new Object();
+        samplesCount = -1;
+        samplesSeconds = 0;
+        stopHandler = false;
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                Logging.debug("Updating the UI every second, count is " + samplesCount);
+                if (samplesCount == -1)
+                    viewSensorRate.setText("Waiting for first sample ...");
+                else if (samplesCount == 0) {
+                    samplesSeconds ++;
+                    viewSensorRate.setText("No update after " + samplesSeconds + " seconds");
+                } else {
+                    samplesSeconds = 0;
+                    viewSensorRate.setText("" + samplesCount + "/sec at " + (1000 / samplesCount) + " msec");
+                    samplesCount = 0;
+                }
+
+                if (!stopHandler) {
+                    uiThreadHandler.postDelayed(this, 1000);
+                }
+            }
+        };
+        uiThreadHandler.post(runnable);
     }
 
     public void changeSensor(int ofs) {
@@ -142,8 +179,9 @@ public class BaseActivity extends DeviceActivity {
             viewBarArray[i].setMaximum(sensor.getMaximumRange());
         }
         viewSensorGraph.resetMaximum(sensor.getMaximumRange());
-        viewSensorRaw.setText("n/a");
-        viewSensorAccuracy.setText("n/a");
+        viewSensorRaw.setText("Waiting for sensor data ...");
+        viewSensorAccuracy.setText("Waiting for sensor accuracy ...");
+        samplesCount = 0;
 
         listener = new SensorEventListener() {
 
@@ -152,6 +190,7 @@ public class BaseActivity extends DeviceActivity {
             public void onSensorChanged(SensorEvent sensorEvent) {
                 if (sensorEvent.sensor.getType() == sensor.getType()) {
                     Logging.detailed("Sensor update: " + Arrays.toString(sensorEvent.values));
+                    samplesCount++;
 
                     String raw = "";
                     for (int i = 0; i < sensorEvent.values.length; i++) {

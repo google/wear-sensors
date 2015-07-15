@@ -41,11 +41,21 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Rate"
+        android:textSize="@dimen/sensor_font_size"
+        android:id="@+id/sensorRate"
+        android:layout_below="@+id/sensorAccuracy"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Raw"
         android:textSize="@dimen/sensor_font_size"
         android:fontFamily="monospace"
         android:id="@+id/sensorRaw"
-        android:layout_below="@+id/sensorAccuracy"
+        android:layout_below="@+id/sensorRate"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
