@@ -90,29 +90,39 @@ public class BaseActivity extends DeviceActivity {
         sensorIndex = 0;
         sensor = sensorArray[sensorIndex];
 
-        // Implement the ability to cycle through the sensor list
+        // Implement the ability to cycle through the sensor list with next/prev buttons
         viewSensorNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sensorIndex++;
-                if (sensorIndex >= sensorArray.length)
-                    sensorIndex = 0;
-                sensor = sensorArray[sensorIndex];
-                stopSensor();
-                startSensor();
+                changeSensor(+1);
             }
         });
         viewSensorPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sensorIndex--;
-                if (sensorIndex < 0)
-                    sensorIndex = sensorArray.length-1;
-                sensor = sensorArray[sensorIndex];
-                stopSensor();
-                startSensor();
+                changeSensor(-1);
             }
         });
+
+        // Implement the ability to go to the next sensor with a click anywhere else
+        viewMainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Logging.debug("Detected onClick event");
+                changeSensor(+1);
+            }
+        });
+    }
+
+    public void changeSensor(int ofs) {
+        sensorIndex += ofs;
+        if (sensorIndex >= sensorArray.length)
+            sensorIndex = 0;
+        else if (sensorIndex < 0)
+            sensorIndex = sensorArray.length-1;
+        sensor = sensorArray[sensorIndex];
+        stopSensor();
+        startSensor();
     }
 
     @Override
