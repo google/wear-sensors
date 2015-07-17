@@ -57,6 +57,7 @@ public class BaseActivity extends DeviceActivity {
     private boolean stopHandler;
     private Handler uiThreadHandler;
     private Object lockSensorRate;
+    private Runnable uiRunnableUpdate;
     private int samplesCount;
     private int samplesSeconds;
 
@@ -119,7 +120,7 @@ public class BaseActivity extends DeviceActivity {
         samplesCount = -1;
         samplesSeconds = 0;
         stopHandler = false;
-        Runnable runnable = new Runnable() {
+        uiRunnableUpdate = new Runnable() {
             @Override
             public void run() {
                 Logging.debug("Updating the UI every second, count is " + samplesCount);
@@ -139,7 +140,6 @@ public class BaseActivity extends DeviceActivity {
                 }
             }
         };
-        uiThreadHandler.post(runnable);
     }
 
     public void changeSensor(int ofs) {
@@ -157,6 +157,7 @@ public class BaseActivity extends DeviceActivity {
     public void onStart() {
         super.onStart();
         startSensor();
+        uiThreadHandler.post(uiRunnableUpdate);
     }
 
     private void startSensor() {
@@ -223,6 +224,7 @@ public class BaseActivity extends DeviceActivity {
     public void onStop() {
         super.onStop();
         stopSensor();
+        uiThreadHandler.removeCallbacks(uiRunnableUpdate);
     }
 
     private void stopSensor() {
