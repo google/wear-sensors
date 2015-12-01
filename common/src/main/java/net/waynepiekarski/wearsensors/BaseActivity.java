@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
@@ -90,8 +91,10 @@ public class BaseActivity extends DeviceActivity {
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
         List<Sensor> list = sensorManager.getSensorList(Sensor.TYPE_ALL);
-        if (list.size() < 1)
+        if (list.size() < 1) {
+            Toast.makeText(this, "No sensors returned from getSensorList", Toast.LENGTH_SHORT);
             Logging.fatal("No sensors returned from getSensorList");
+        }
         sensorArray = list.toArray(new Sensor[list.size()]);
         for (int i = 0; i < sensorArray.length; i++) {
             Logging.debug("Found sensor " + i + " " + sensorArray[i].toString());
