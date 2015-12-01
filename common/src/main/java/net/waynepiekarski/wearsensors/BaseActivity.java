@@ -183,7 +183,10 @@ public class BaseActivity extends DeviceActivity {
             public String getStrFromFloat(float in) {
                 if ((in > -0.00001) && (in < 0.00001))
                     in = 0;
-                return decimalFormat.format(in);
+                if (in == Math.rint(in))
+                    return Integer.toString((int)in);
+                else
+                    return decimalFormat.format(in);
             }
 
             public int min(int a, int b) { if (a < b) { return a; } else { return b; } }
