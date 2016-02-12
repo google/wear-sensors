@@ -8,12 +8,32 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/dummyCenter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="@dimen/sensor_font_size"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/sensorType" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ambient"
         android:textSize="@dimen/sensor_font_size"
         android:id="@+id/ambientType"
-        android:layout_gravity="center_horizontal"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_vertical"
+        android:layout_above="@+id/sensorType"
+        android:layout_toLeftOf="@+id/dummyCenter" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Device"
+        android:textSize="@dimen/sensor_font_size"
+        android:id="@+id/deviceType"
+        android:layout_gravity="center_vertical"
+        android:layout_toRightOf="@+id/dummyCenter"
         android:layout_above="@+id/sensorType" />
 
     <TextView

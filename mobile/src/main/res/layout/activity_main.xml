@@ -13,8 +13,18 @@
         android:layout_height="wrap_content"
         android:text="Type"
         android:textSize="@dimen/sensor_font_size"
-        android:id="@+id/sensorType"
+        android:id="@+id/deviceType"
         android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Type"
+        android:textSize="@dimen/sensor_font_size"
+        android:id="@+id/sensorType"
+        android:layout_below="@+id/deviceType"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 

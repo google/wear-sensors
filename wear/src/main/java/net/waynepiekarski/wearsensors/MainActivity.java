@@ -29,13 +29,13 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setAmbientEnabled();
         ambientType = (TextView)findViewById(R.id.ambientType);
-        ambientType.setText("Interactive mode");
+        ambientType.setText("Interactive mode: ");
     }
 
     @Override
     public void onEnterAmbient(Bundle b) {
         super.onEnterAmbient(b);
-        ambientType.setText("Ambient mode");
+        ambientType.setText("Ambient mode: ");
     }
 
     @Override
@@ -47,6 +47,6 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onExitAmbient() {
         super.onExitAmbient();
-        ambientType.setText("Interactive mode");
+        ambientType.setText("Interactive mode: ");
     }
 }

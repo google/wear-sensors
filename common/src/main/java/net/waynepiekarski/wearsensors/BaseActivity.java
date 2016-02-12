@@ -43,6 +43,7 @@ public class BaseActivity extends DeviceActivity {
     private SensorEventListener listener;
     private Sensor[] sensorArray;
     private int sensorIndex;
+    private TextView viewDeviceType;
     private TextView viewSensorType;
     private TextView viewSensorDetails;
     private TextView viewSensorAccuracy;
@@ -69,6 +70,7 @@ public class BaseActivity extends DeviceActivity {
 
         decimalFormat = new DecimalFormat("+@@@@;-@@@@"); // 4 significant figures
 
+        viewDeviceType = (TextView)findViewById(R.id.deviceType);
         viewSensorType = (TextView)findViewById(R.id.sensorType);
         viewSensorDetails = (TextView)findViewById(R.id.sensorDetails);
         viewSensorAccuracy = (TextView)findViewById(R.id.sensorAccuracy);
@@ -168,6 +170,7 @@ public class BaseActivity extends DeviceActivity {
         if (Build.VERSION.SDK_INT >= 20)
             type = type + "=" + sensor.getStringType();
         Logging.debug("Opened up " + type + " - " + sensor.toString());
+        viewDeviceType.setText(android.os.Build.DEVICE + " " + android.os.Build.ID);
         viewSensorType.setText(type);
         viewSensorDetails.setText(sensor.toString().replace("{Sensor ", "").replace("}", ""));
         for (int i = 0; i < viewBarArray.length; i++) {
